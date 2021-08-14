@@ -1,5 +1,6 @@
 const ig = require("instatouch");
-const sID = "38420191934%3AgfligrTOiamtqY%3A20";
+const dotenv = require('dotenv').config()
+const sID = process.env.sID;
 
 const options = {
   count: 0,
@@ -14,7 +15,7 @@ async function igStalk(username = 'instagram') {
       ig.getUserMeta(username, options)
         .then((data) => {
           resolve({
-            data: {
+            result: {
               profile: data.graphql.user.profile_pic_url,
               profilehd: data.graphql.user.profile_pic_url_hd,
               fullname: data.graphql.user.full_name,
@@ -33,7 +34,7 @@ async function igStalk(username = 'instagram') {
         })
         .catch((err) =>
           reject({
-            message: "akun tidak di temukan"
+            message: "akun tidak di temukan atau username tidak valid"
           })
         );
     } catch (err) {
@@ -63,6 +64,8 @@ async function igDownload(url) {
     } 
     catch(err) {
       reject({
+        status: 406,
+        creator: '@amfcode_',
         msg: "Link Tidak Valid"
       })
     }
